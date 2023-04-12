@@ -113,6 +113,23 @@ def apply_background_color(img: PILImage, color: Tuple[int, int, int, int]) -> P
     return colored_image
 
 
+def resize_image(img: PILImage, width: int) -> PILImage:
+        # resize PILImage and preserve the aspect ratio
+        desired_size = (width, width)
+        desired_aspect_ratio = desired_size[0] / desired_size[1]
+        img_aspect_ratio = img.width / img.height
+
+        if img_aspect_ratio > desired_aspect_ratio:
+            new_width = round(desired_size[1] * img_aspect_ratio)
+            desired_size = (new_width, desired_size[1])
+        else:
+            new_height = round(desired_size[0] / img_aspect_ratio)
+            desired_size = (desired_size[0], new_height)
+        print("Calculated new size: ", desired_size, " from original size: ", img.size, " with aspect ratio: ", img_aspect_ratio)
+
+        return img.resize(desired_size, resample=Image.LANCZOS)    
+
+
 def remove(
     data: Union[bytes, PILImage, np.ndarray],
     alpha_matting: bool = False,
@@ -123,6 +140,7 @@ def remove(
     only_mask: bool = False,
     post_process_mask: bool = False,
     bgcolor: Optional[Tuple[int, int, int, int]] = None,
+    width: Optional[int] = None,
 ) -> Union[bytes, PILImage, np.ndarray]:
     if isinstance(data, PILImage):
         return_type = ReturnType.PILLOW
@@ -138,6 +156,9 @@ def remove(
 
     if session is None:
         session = new_session("u2net")
+
+    if width is not None:
+        img = resize_image(img, width)
 
     masks = session.predict(img)
     cutouts = []
@@ -169,6 +190,8 @@ def remove(
     cutout = img
     if len(cutouts) > 0:
         cutout = get_concat_v_multi(cutouts)
+
+    print("cutout: ", cutout.getbbox())
 
     if bgcolor is not None and not only_mask:
         cutout = apply_background_color(cutout, bgcolor)

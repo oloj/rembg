@@ -330,3 +330,21 @@ Liked some of my work? Buy me a coffee (or more likely a beer)
 Copyright (c) 2020-present [Daniel Gatis](https://github.com/danielgatis)
 
 Licensed under [MIT License](./LICENSE.txt)
+
+
+## starta
+### mappar till port 5020
+docker run -p 5020:5000 rembg s
+
+## kör
+curl -s -F file=@/mnt/c/Users/jonas/OneDrive/Bilder/ora/png/aurora-green-400.png "http://localhost:5020" -o /mnt/c/Users/jonas/OneDrive/Bilder/ora/png/ora-400-out.png
+
+## u2netp
+curl -s -F file=@/mnt/c/Users/jonas/OneDrive/Bilder/ora/png/aurora-green-400.png "http://localhost:5020?model=u2netp" -o /mnt/c/Users/jonas/OneDrive/Bilder/ora/png/ora-400-u2netp.png
+curl -s -F file=@/mnt/c/Users/jonas/OneDrive/Bilder/ora/png/galaxy-beige-brown.png "http://localhost:5020?model=u2netp" -o /mnt/c/Users/jonas/OneDrive/Bilder/ora/png/galaxy-beige-brown-u2netp.png
+
+curl -s "http://localhost:5020?model=u2netp&url=https://www.polestar.com/dato-assets/11286/1673267490-01-5-polestar-2-exterior-design-d.jpg?q=60&dpr=1&fm=pjpg&w=1440&ar=1.7777777777777777" -o /mnt/c/Users/jonas/OneDrive/Bilder/ora/png/ps2-u2netp.png
+
+## silueta
+curl -s -F file=@/mnt/c/Users/jonas/OneDrive/Bilder/ora/png/aurora-green-400.png "http://localhost:5020?model=silueta" -o /mnt/c/Users/jonas/OneDrive/Bilder/ora/png/ora-400-silueta.png
+curl -s -F file=@/mnt/c/Users/jonas/OneDrive/Bilder/ora/png/galaxy-beige-brown.png "http://localhost:5020?model=silueta" -o /mnt/c/Users/jonas/OneDrive/Bilder/ora/png/galaxy-beige-brown-silueta.png

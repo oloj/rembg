@@ -192,6 +192,14 @@ def i(model: str, input: IO, output: IO, **kwargs) -> None:
     nargs=4,
     help="Background color (R G B A) to replace the removed background with",
 )
+@click.option(
+    "-wi",
+    "--width",
+    default=None,
+    type=(int),
+    nargs=4,
+    help="Width to resize to (keeping the aspect ratio))",
+)
 @click.argument(
     "input",
     type=click.Path(
@@ -369,6 +377,7 @@ def s(port: int, log_level: str, threads: int) -> None:
             om: bool = Query(default=False, description="Only Mask"),
             ppm: bool = Query(default=False, description="Post Process Mask"),
             bgc: Optional[str] = Query(default=None, description="Background Color"),
+            width: Optional[str] = Query(default=None, description="Width"),
         ):
             self.model = model
             self.a = a
@@ -382,12 +391,16 @@ def s(port: int, log_level: str, threads: int) -> None:
                 if bgc
                 else None
             )
+            self.width = (
+                int(width) if width and width.isdigit() else None
+            )
+
 
     class CommonQueryPostParams:
         def __init__(
             self,
             model: ModelType = Form(
-                default=ModelType.u2net,
+                default=ModelType.u2netp,
                 description="Model to use when processing image",
             ),
             a: bool = Form(default=False, description="Enable Alpha Matting"),
@@ -409,6 +422,7 @@ def s(port: int, log_level: str, threads: int) -> None:
             om: bool = Form(default=False, description="Only Mask"),
             ppm: bool = Form(default=False, description="Post Process Mask"),
             bgc: Optional[str] = Query(default=None, description="Background Color"),
+            width: Optional[str] = Query(default=None, description="Width"),
         ):
             self.model = model
             self.a = a
@@ -421,6 +435,9 @@ def s(port: int, log_level: str, threads: int) -> None:
                 cast(Tuple[int, int, int, int], tuple(map(int, bgc.split(","))))
                 if bgc
                 else None
+            )
+            self.width = (
+                int(width) if width and width.isdigit() else None
             )
 
     def im_without_bg(content: bytes, commons: CommonQueryParams) -> Response:
@@ -437,6 +454,7 @@ def s(port: int, log_level: str, threads: int) -> None:
                 only_mask=commons.om,
                 post_process_mask=commons.ppm,
                 bgcolor=commons.bgc,
+                width=commons.width,
             ),
             media_type="image/png",
         )
