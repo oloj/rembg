@@ -37,28 +37,6 @@ Rembg is a tool to remove images background.
   <img src="https://raw.githubusercontent.com/danielgatis/rembg/master/examples/girl-3.out.png" width="100" />
 </p>
 
-**If this project has helped you, please consider making a [donation](https://www.buymeacoffee.com/danielgatis).**
-
-## Sponsor
-
-<table>
-  <tr>
-    <td align="center" vertical-align="center">
-      <a href="https://photoroom.com/api/remove-background?utm_source=rembg&utm_medium=github_webpage&utm_campaign=sponsor" >
-        <img src="https://font-cdn.photoroom.com/media/api-logo.png" width="120px;" alt="Unsplash" />
-      </a>
-    </td>
-    <td align="center" vertical-align="center">
-      <b>PhotoRoom Remove Background API</b>
-      <br />
-      <a href="https://photoroom.com/api/remove-background?utm_source=rembg&utm_medium=github_webpage&utm_campaign=sponsor">https://photoroom.com/api</a>
-      <br />
-      <p width="200px">
-        Fast and accurate background remover API<br/>
-      </p>
-    </td>
-  </tr>
-</table>
 
 ## Requirements
 
@@ -342,6 +320,7 @@ curl -s -F file=@/mnt/c/Users/jonas/OneDrive/Bilder/ora/png/aurora-green-400.png
 ## u2netp
 curl -s -F file=@/mnt/c/Users/jonas/OneDrive/Bilder/ora/png/aurora-green-400.png "http://localhost:5020?model=u2netp" -o /mnt/c/Users/jonas/OneDrive/Bilder/ora/png/ora-400-u2netp.png
 curl -s -F file=@/mnt/c/Users/jonas/OneDrive/Bilder/ora/png/galaxy-beige-brown.png "http://localhost:5020?model=u2netp" -o /mnt/c/Users/jonas/OneDrive/Bilder/ora/png/galaxy-beige-brown-u2netp.png
+curl -s -F file=@/mnt/c/Users/jonas/OneDrive/Bilder/ora/png/galaxy-beige-brown.png "http://localhost:5020?model=u2netp&width=400" -o /mnt/c/Users/jonas/OneDrive/Bilder/ora/png/galaxy-beige-brown-u2netp-400.png
 
 curl -s "http://localhost:5020?model=u2netp&url=https://www.polestar.com/dato-assets/11286/1673267490-01-5-polestar-2-exterior-design-d.jpg?q=60&dpr=1&fm=pjpg&w=1440&ar=1.7777777777777777" -o /mnt/c/Users/jonas/OneDrive/Bilder/ora/png/ps2-u2netp.png
 
