@@ -114,21 +114,34 @@ def apply_background_color(img: PILImage, color: Tuple[int, int, int, int]) -> P
 
 
 def resize_image(img: PILImage, width: int) -> PILImage:
-        # resize PILImage and preserve the aspect ratio
-        desired_size = (width, width)
-        desired_aspect_ratio = desired_size[0] / desired_size[1]
-        img_aspect_ratio = img.width / img.height
+    # resize PILImage and preserve the aspect ratio
+    desired_size = (width, width)
+    desired_aspect_ratio = desired_size[0] / desired_size[1]
+    img_aspect_ratio = img.width / img.height
 
-        if img_aspect_ratio > desired_aspect_ratio:
-            new_width = round(desired_size[1] * img_aspect_ratio)
-            desired_size = (new_width, desired_size[1])
-        else:
-            new_height = round(desired_size[0] / img_aspect_ratio)
-            desired_size = (desired_size[0], new_height)
-        print("Calculated new size: ", desired_size, " from original size: ", img.size, " with aspect ratio: ", img_aspect_ratio)
+    # if img_aspect_ratio > desired_aspect_ratio:
+    # new_width = round(desired_size[1] * img_aspect_ratio)
+    # new_width = round(desired_size[1] / img_aspect_ratio)
+    desired_size = (width, round(width / img_aspect_ratio))
+    # else:
+    #     new_height = round(desired_size[0] / img_aspect_ratio)
+    #     desired_size = (desired_size[0], new_height)
+    print("Calculated new size: ", desired_size, " from original size: ", img.size, " with aspect ratio: ", img_aspect_ratio)
 
-        return img.resize(desired_size, resample=Image.LANCZOS)    
+    return img.resize(desired_size, resample=Image.LANCZOS)    
 
+def trim_image(desiredWidth, cutout):
+    print("cutout: ", cutout.getbbox())
+    cutout = cutout.crop(cutout.getbbox())
+    if(desiredWidth is not None):
+        if(cutout.width > desiredWidth):
+            print("resize cutout: ", desiredWidth)
+            cutout = resize_image(cutout, desiredWidth)
+        print("new blank: ", (desiredWidth, cutout.height))
+        new_blank = Image.new("RGBA", (desiredWidth, cutout.height), 0)
+        new_blank.paste(cutout, (round((new_blank.width - cutout.width) / 2), 0))
+        cutout = new_blank
+    return cutout
 
 def remove(
     data: Union[bytes, PILImage, np.ndarray],
@@ -141,6 +154,7 @@ def remove(
     post_process_mask: bool = False,
     bgcolor: Optional[Tuple[int, int, int, int]] = None,
     width: Optional[int] = None,
+    trim: bool = False,
 ) -> Union[bytes, PILImage, np.ndarray]:
     if isinstance(data, PILImage):
         return_type = ReturnType.PILLOW
@@ -158,7 +172,10 @@ def remove(
         session = new_session("u2net")
 
     if width is not None:
-        img = resize_image(img, width)
+        width_trim_factor = 1
+        if trim:
+            width_trim_factor = 1.5
+        img = resize_image(img, round(width * width_trim_factor))
 
     masks = session.predict(img)
     cutouts = []
@@ -191,7 +208,8 @@ def remove(
     if len(cutouts) > 0:
         cutout = get_concat_v_multi(cutouts)
 
-    print("cutout: ", cutout.getbbox())
+    if trim:
+        cutout = trim_image(width, cutout)
 
     if bgcolor is not None and not only_mask:
         cutout = apply_background_color(cutout, bgcolor)
@@ -207,3 +225,4 @@ def remove(
     bio.seek(0)
 
     return bio.read()
+

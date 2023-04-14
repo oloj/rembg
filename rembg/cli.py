@@ -378,6 +378,7 @@ def s(port: int, log_level: str, threads: int) -> None:
             ppm: bool = Query(default=False, description="Post Process Mask"),
             bgc: Optional[str] = Query(default=None, description="Background Color"),
             width: Optional[str] = Query(default=None, description="Width"),
+            trim: bool = Query(default=False, description="Trim transparent pixels"),
         ):
             self.model = model
             self.a = a
@@ -394,6 +395,7 @@ def s(port: int, log_level: str, threads: int) -> None:
             self.width = (
                 int(width) if width and width.isdigit() else None
             )
+            self.trim = trim
 
 
     class CommonQueryPostParams:
@@ -423,6 +425,7 @@ def s(port: int, log_level: str, threads: int) -> None:
             ppm: bool = Form(default=False, description="Post Process Mask"),
             bgc: Optional[str] = Query(default=None, description="Background Color"),
             width: Optional[str] = Query(default=None, description="Width"),
+            trim: bool = Query(default=False, description="Trim transparent pixels"),
         ):
             self.model = model
             self.a = a
@@ -439,6 +442,7 @@ def s(port: int, log_level: str, threads: int) -> None:
             self.width = (
                 int(width) if width and width.isdigit() else None
             )
+            self.trim = trim
 
     def im_without_bg(content: bytes, commons: CommonQueryParams) -> Response:
         return Response(
@@ -455,6 +459,7 @@ def s(port: int, log_level: str, threads: int) -> None:
                 post_process_mask=commons.ppm,
                 bgcolor=commons.bgc,
                 width=commons.width,
+                trim=commons.trim,
             ),
             media_type="image/png",
         )
