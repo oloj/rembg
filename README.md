@@ -342,8 +342,21 @@ curl -s -F file=@/mnt/c/Users/jonas/OneDrive/Bilder/ora/png/aurora-green-400.png
 ## u2netp
 curl -s -F file=@/mnt/c/Users/jonas/OneDrive/Bilder/ora/png/aurora-green-400.png "http://localhost:5020?model=u2netp" -o /mnt/c/Users/jonas/OneDrive/Bilder/ora/png/ora-400-u2netp.png
 curl -s -F file=@/mnt/c/Users/jonas/OneDrive/Bilder/ora/png/galaxy-beige-brown.png "http://localhost:5020?model=u2netp" -o /mnt/c/Users/jonas/OneDrive/Bilder/ora/png/galaxy-beige-brown-u2netp.png
+curl -s -F file=@/mnt/c/Users/jonas/OneDrive/Bilder/ora/png/galaxy-beige-brown.png "http://localhost:5020?model=u2netp&width=400" -o /mnt/c/Users/jonas/OneDrive/Bilder/ora/png/galaxy-beige-brown-u2netp-400.png
+curl -s -F file=@/mnt/c/Users/jonas/OneDrive/Bilder/ora/png/galaxy-beige-brown.png "http://localhost:5020?model=u2netp&trim=True&width=400" -o /mnt/c/Users/jonas/OneDrive/Bilder/ora/png/trim-galaxy-beige-brown.png
 
 curl -s "http://localhost:5020?model=u2netp&url=https://www.polestar.com/dato-assets/11286/1673267490-01-5-polestar-2-exterior-design-d.jpg?q=60&dpr=1&fm=pjpg&w=1440&ar=1.7777777777777777" -o /mnt/c/Users/jonas/OneDrive/Bilder/ora/png/ps2-u2netp.png
+curl -s "http://localhost:5020?model=u2netp&width=400&trim=True&url=https://www.polestar.com/dato-assets/11286/1673267490-01-5-polestar-2-exterior-design-d.jpg?q=60&dpr=1&fm=pjpg&w=1440&ar=1.7777777777777777" -o /mnt/c/Users/jonas/OneDrive/Bilder/ora/png/trim-ps2.png
+
+curl -s "http://localhost:5020?model=u2netp&width=400&trim=True&url=https://www.peugeot.se/content/dam/peugeot/master/b2c/our-range/showroom/new-408/bbc/PEUGEOT_IMAGE_408HY_B0_810x455.png" -o /mnt/c/Users/jonas/OneDrive/Bilder/ora/png/trim-peu-408.png
+
+curl -s "http://localhost:5020?model=u2netp&width=400&trim=True&url=https://www.peugeot.se/content/dam/peugeot/master/b2c/our-range/nouvelle-208/bbc/l-m/PEUGEOT_IMAGE_e-208_C0_810x455.png" -o /mnt/c/Users/jonas/OneDrive/Bilder/ora/png/trim-peu-208.png
+
+curl -s "http://localhost:5020?model=u2netp&width=400&trim=True&url=https://www.kia.com/content/dam/kwcms/kme/global/en/assets/gnb/kia-xceed-ice-my23-range-v1-520x260.png" -o /mnt/c/Users/jonas/OneDrive/Bilder/ora/png/trim-xceed.png
+
+curl -s "http://localhost:5020?model=u2netp&width=400&trim=True&url=https://www.kia.com/content/dam/kwcms/kme/se/sv/assets/gnb/kia-ev9-explore-png-520x260.png" -o /mnt/c/Users/jonas/OneDrive/Bilder/ora/png/trim-ev9.png
+
+
 
 ## silueta
 curl -s -F file=@/mnt/c/Users/jonas/OneDrive/Bilder/ora/png/aurora-green-400.png "http://localhost:5020?model=silueta" -o /mnt/c/Users/jonas/OneDrive/Bilder/ora/png/ora-400-silueta.png
